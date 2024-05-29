@@ -23,7 +23,6 @@ namespace ManageServer.Services
             {
                 Name = project.Name,
                 DataProject = project.DataProject,
-                DataProjectType = project.DataProjectType,
                 Description = project.Description,
                 TagId = project.TagId,
                 CreatedDate = DateTime.Now,
@@ -76,7 +75,6 @@ namespace ManageServer.Services
                 data.Name = project.Name;
                 data.Description = project.Description;
                 data.DataProject = project.DataProject;
-                data.DataProjectType = project.DataProjectType;
                 data.TagId = project.TagId;
                 data.UpdatedDate = DateTime.Now;
             }

@@ -35,7 +35,7 @@ namespace ManageServer.Entities
                 entity.Property(e => e.FirstName).HasMaxLength(256).IsRequired();
                 entity.Property(e => e.LastName).HasMaxLength(256).IsRequired();
                 entity.Property(e => e.Email).HasMaxLength(256).IsRequired();
-                entity.Property(e => e.Password).HasMaxLength(256).IsRequired();
+                entity.Property(e => e.Password).HasColumnType("text").IsRequired();
 
             });
 
@@ -54,6 +54,7 @@ namespace ManageServer.Entities
                 entity.HasKey(e => e.Id);
                 entity.Property(e => e.Name).IsRequired();
                 entity.Property(e => e.TagId).HasColumnName("tagId");
+                entity.Property(e => e.DataProject).HasColumnType("text");
                 entity.HasOne(p => p.Tag).WithMany(t => t.Projects).HasForeignKey(p => p.TagId).HasConstraintName("FK_Project_Tag");
 
             });

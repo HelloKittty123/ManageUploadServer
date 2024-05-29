@@ -69,6 +69,19 @@ namespace ManageServer.Controllers
             }
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GetAllAccountAsync(string search)
+        {
+            try
+            {
+                return Ok(await _accountService.GetAllUserAsync(search));
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
         [HttpGet("{id}")]
         public async Task<IActionResult> GetAccountByIdAsync(Guid id)
         {

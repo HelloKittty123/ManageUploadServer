@@ -52,6 +52,10 @@ namespace ManageServer.Services
 
         public async Task<List<AccountResponseModel>> GetAllUserAsync(string search)
         {
+            if(string.IsNullOrEmpty(search))
+            {
+                search = "";
+            }
             var users = await _context.Accounts.OrderByDescending(a => a.CreatedDate)
                 .Where(a => a.FirstName.Contains(search)
                 || a.LastName.Contains(search)
