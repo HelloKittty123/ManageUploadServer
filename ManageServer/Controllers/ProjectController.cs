@@ -18,6 +18,7 @@ namespace ManageServer.Controllers
         }
 
         [HttpGet("getByPage")]
+        [AllowAnonymous]
         public async Task<IActionResult> GetProjectPagingAsync(int? page, int? size, string? search = "", Guid? tagId = null)
         {
             try

@@ -18,6 +18,7 @@ namespace ManageServer.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public async Task<IActionResult> GetAllTagAsync()
         {
             try

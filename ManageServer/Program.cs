@@ -22,8 +22,8 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<ManageContext>(option =>
 {
     var connectionString = builder.Configuration.GetConnectionString("ConnectionStrings");
-    //option.UseSqlServer(builder.Configuration.GetConnectionString("MyDB"));
-    option.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
+    option.UseSqlServer(builder.Configuration.GetConnectionString("MyDB"));
+    //option.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
 });
 
 builder.Services.AddScoped<IHomeService, HomeService>();

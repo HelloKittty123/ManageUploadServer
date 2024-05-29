@@ -69,6 +69,20 @@ namespace ManageServer.Controllers
             }
         }
 
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetAccountByIdAsync(Guid id)
+        {
+            try
+            {
+                var account = await _accountService.GetAccountByIdAsync(id);
+                return Ok(account);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
         [Authorize]
         [HttpGet("get-account")]
         public async Task<IActionResult> GetAccountAsync()
@@ -128,9 +142,17 @@ namespace ManageServer.Controllers
         {
             try
             {
-                //Request.Cookies.TryGetValue("access_token", out string access_token);
-                //await _accountService.UpdatePasswordAsync(updatePasswordModel);
-                return Ok();
+                var user = HttpContext.User;
+                if (user.Identity.IsAuthenticated)
+                {
+                    var userId = new Guid(user.FindFirst("Id").Value);
+                    await _accountService.UpdatePasswordAsync(updatePasswordModel, userId);
+
+                    return Ok();
+
+                }
+
+                return Unauthorized();
             }
             catch (Exception ex)
             {

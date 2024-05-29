@@ -52,7 +52,7 @@ namespace ManageServer.Services
 
         public async Task<List<AccountResponseModel>> GetAllUserAsync(string search)
         {
-            var users = await _context.Accounts
+            var users = await _context.Accounts.OrderByDescending(a => a.CreatedDate)
                 .Where(a => a.FirstName.Contains(search)
                 || a.LastName.Contains(search)
                 || a.Email.Contains(search))
@@ -122,16 +122,16 @@ namespace ManageServer.Services
             var account = await _context.Accounts.Where(a => a.Id == userId).SingleOrDefaultAsync();
             if (account != null)
             {
-                if (!accountModel.OldPassword.Equals(account.Password))
+                if (!accountModel.OldPassword.Equals(account.Password.DecryptBase64()))
                 {
                     throw new InvalidPasswordException("Old password is not correct");
                 }
-                else if (accountModel.NewPassword.Equals(account.Password))
+                else if (accountModel.NewPassword.Equals(account.Password.DecryptBase64()))
                 {
-                    throw new InvalidPasswordException("New password is equal the old password");
+                    throw new InvalidPasswordException("New password is the same with the old password");
                 }
 
-                account.Password = accountModel.NewPassword;
+                account.Password = accountModel.NewPassword.EncryptBase64();
                 await _context.SaveChangesAsync();
             }
 

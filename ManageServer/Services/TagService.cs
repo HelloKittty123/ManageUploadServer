@@ -42,7 +42,7 @@ namespace ManageServer.Services
 
         public async Task<List<Tag>> GetAllTagAsync()
         {
-            var tagList = await _manageContext.Tags.ToListAsync();
+            var tagList = await _manageContext.Tags.OrderByDescending(t => t.CreatedDate).ToListAsync();
             return tagList;
         }
 

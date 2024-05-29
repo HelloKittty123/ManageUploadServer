@@ -16,9 +16,13 @@ namespace ManageServer.Services
 
         public async Task<Home> AddHomeAsync(HomeModel home)
         {
+            var countHome = await _context.Homes.CountAsync();
+            if(countHome == 10) {
+                throw new Exception("The home list has max length: 10");
+            }
             var newHome = new Home
             {
-                Title = home.Titlte,
+                Title = home.Title,
                 Description = home.Description,
                 LinkImage = home.LinkImage,
                 CreatedDate = DateTime.Now,
@@ -43,7 +47,7 @@ namespace ManageServer.Services
 
         public async Task<List<Home>> GetAllHomeAsync()
         {
-            var homeList = await _context.Homes.ToListAsync();
+            var homeList = await _context.Homes.OrderByDescending(h => h.CreatedDate).ToListAsync();
             return homeList;
         }
 
@@ -59,7 +63,7 @@ namespace ManageServer.Services
             if (data != null)
             {
                 data.Description = home.Description;
-                data.Title = home.Titlte;
+                data.Title = home.Title;
                 data.UpdatedDate = DateTime.Now;
                 await _context.SaveChangesAsync();
             }
